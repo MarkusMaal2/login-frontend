@@ -11,6 +11,8 @@ let initialData;
 let initialLogin = false;
 function App() {
     const endPoint = "http://localhost:8080"
+    const [userName, setUserName] = useState("");
+    const [passWord, setPassWord] = useState("");
     const [expire, setExpire] = useState(() => {
         if ((localStorage.getItem("expire") !== null)) {
             return Number(localStorage.getItem("expire"));
@@ -81,7 +83,20 @@ function App() {
     }
 
     const deleteHandler = () => {
-        alert("Pole implementeeritud");
+        axios.delete(endPoint + '/users/' + data.id,  {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials:true
+        })
+            .then(() => {
+                logoutHandler();
+                localStorage.clear();
+                alert("Konto kustutati");
+            })
+            .catch((error) => {
+                alert("Viga: " + error);
+            });
     }
 
     const regHandler = () => {
@@ -100,10 +115,14 @@ function App() {
             .then((response => {
                 alert("Loodi kasutaja järgmiste andmetega:\nID: " + response.data.id + "\nNimi: " + response.data.name + "\nRäsi: " + response.data.hash)
                 console.log("Response: ", response.data)
+                setUserName("")
+                setPassWord("")
             }))
             .catch((error) => {
                 alert("Viga: " + error);
                 console.log("Error: ", error);
+                setUserName("")
+                setPassWord("")
             })
     }
 
@@ -139,7 +158,7 @@ function App() {
     ReactSession.setStoreType=("localStorage")
   return (
       <div>
-          { !loggedIn && <LoginForm loginHandler={loginHandler} regHandler={regHandler} submitHandler={submitHandler}/>}
+          { !loggedIn && <LoginForm loginHandler={loginHandler} regHandler={regHandler} submitHandler={submitHandler} userName={userName} passWord={passWord}/>}
           { loggedIn && <Private deleteHandler={deleteHandler} logoutHandler={logoutHandler} data={data}/>}
       </div>
   );
