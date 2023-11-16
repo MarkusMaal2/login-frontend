@@ -2,9 +2,9 @@ import React from "react";
 import FormButton from "../LoginForm/FormButton";
 
 const Private = (props) => {
-    console.log(props);
     return (
         <div className="container mt-5">
+            { props.error ? <div style={{color: "red"}}>{props.error}</div> : "" }
             <h2>Tere tulemast, {props.data.name}!</h2>
             <p>Andmebaasi ID: {props.data.id}</p>
             <p>Sessioni ID: {props.data.token}</p>

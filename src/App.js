@@ -13,6 +13,7 @@ function App() {
     const endPoint = "http://localhost:8080"
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
+    const [error, setError] = useState("");
     const [expire, setExpire] = useState(() => {
         if ((localStorage.getItem("expire") !== null)) {
             return Number(localStorage.getItem("expire"));
@@ -22,6 +23,51 @@ function App() {
             return -1;
         }
     });
+
+    // generate user-friendly errors if possible
+    const getError = (response) => {
+        console.log("Error: ", response.data);
+        switch (response.status) {
+            case 401:
+                switch (response.data.error) {
+                    case "Invalid credentials":
+                        return "Vale kasutajanimi/parool";
+                    case "Not logged in":
+                        return "Te pole sisse loginud";
+                    case "Missing credentials":
+                        return "Palun sisestage kasutajanimi/parool";
+                    default:
+                        return error.response.data.error.toString() ?? error.response.status;
+                }
+            case 400:
+                switch (response.data.error) {
+                    case "One or all params are missing":
+                        return "Ebapiisavalt parameetreid";
+                    case "The session is already active. Please log out to log in.":
+                        return "Sessioon on juba aktiivne. Palun logige välja!";
+                    default:
+                        return error.response.data.error.toString() ?? error.response.status;
+                }
+            case 500:
+                switch (response.data.error) {
+                    case "Error modifying MySQL data":
+                        return "MySQL rike back-end poolel"
+                    default:
+                        return "Määramata rike back-end poolel"
+                }
+            case 404:
+                return "Kasutajat ei leitud"
+            case 409:
+                return "Kasutaja juba eksisteerib"
+            case 200:
+                return "Käsk õnnestus"
+            case 204:
+                return "Käsk õnnestus"
+            default:
+                return response
+        }
+    }
+
     const [loggedIn, setLogin] = useState(() => {
         if ((localStorage.getItem("expire") !== null)) {
             let expireTime = Number(localStorage.getItem("expire"));
@@ -72,13 +118,13 @@ function App() {
                 if (response.status === 200) {
                     setLogin(false);
                     setData([]);
+                    setError("")
                 } else {
-                    alert("Välja logimine nurjus");
+                    setError(getError(response))
                 }
             }))
             .catch((error) => {
-                alert("Viga: " + error);
-                console.log("Error: ", error);
+                error.response?setError(getError(error.response)):console.log(error)
             })
     }
 
@@ -92,10 +138,12 @@ function App() {
             .then(() => {
                 logoutHandler();
                 localStorage.clear();
+                setError("")
                 alert("Konto kustutati");
+                window.location.reload();
             })
             .catch((error) => {
-                alert("Viga: " + error);
+                setError(getError(error.response))
             });
     }
 
@@ -113,14 +161,14 @@ function App() {
             }
         })
             .then((response => {
+                setError("")
                 alert("Loodi kasutaja järgmiste andmetega:\nID: " + response.data.id + "\nNimi: " + response.data.name + "\nRäsi: " + response.data.hash)
                 console.log("Response: ", response.data)
                 setUserName("")
                 setPassWord("")
             }))
             .catch((error) => {
-                alert("Viga: " + error);
-                console.log("Error: ", error);
+                setError(getError(error.response))
                 setUserName("")
                 setPassWord("")
             })
@@ -148,18 +196,18 @@ function App() {
                 setExpire(expireTime);
                 localStorage.setItem("session_data", JSON.stringify(response.data));
                 localStorage.setItem("expire", String(expireTime));
+                setError("")
                 console.log("Response: ", response.data)
             }))
             .catch((error) => {
-                alert("Viga: " + error);
-                console.log("Error: ", error);
+                setError(getError(error.response))
             })
     }
     ReactSession.setStoreType=("localStorage")
   return (
       <div>
-          { !loggedIn && <LoginForm loginHandler={loginHandler} regHandler={regHandler} submitHandler={submitHandler} userName={userName} passWord={passWord}/>}
-          { loggedIn && <Private deleteHandler={deleteHandler} logoutHandler={logoutHandler} data={data}/>}
+          { !loggedIn && <LoginForm loginHandler={loginHandler} regHandler={regHandler} submitHandler={submitHandler} userName={userName} passWord={passWord} error={error}/>}
+          { loggedIn && <Private deleteHandler={deleteHandler} logoutHandler={logoutHandler} data={data} error={error}/>}
       </div>
   );
 }
