@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { ReactSession } from "react-client-session";
-import logo from './logo.svg';
 import './App.css';
 import LoginForm from "./components/LoginForm/LoginForm";
 import Private from "./components/Private/Private"
@@ -14,6 +13,7 @@ function App() {
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
     const [error, setError] = useState("");
+    const [screen, setScreen] = useState("Info");
     const [expire, setExpire] = useState(() => {
         if ((localStorage.getItem("expire") !== null)) {
             return Number(localStorage.getItem("expire"));
@@ -23,6 +23,29 @@ function App() {
             return -1;
         }
     });
+
+
+
+    const userChangeHandler = (e) => {
+        setUserName(e.target.value)
+    }
+    const passChangeHandler = (e) => {
+        setPassWord(e.target.value)
+    }
+
+    const switchScreen = (e) => {
+        switch (e.target.innerText) {
+            case "Muuda infot":
+                setScreen("EditInfo")
+                break;
+            case "Tagasi":
+                setScreen("Info")
+                break;
+            default:
+                setScreen("Info")
+                break;
+        }
+    }
 
     // generate user-friendly errors if possible
     const getError = (response) => {
@@ -66,6 +89,33 @@ function App() {
             default:
                 return response
         }
+    }
+
+    const updateData = (e) => {
+        e.preventDefault();
+
+
+        const jsonData = {
+            name: document.querySelector("#userName").value,
+            password: document.querySelector("#passWord").value,
+        }
+
+        const uri = endPoint + "/users/" + data.id;
+
+        axios.put(uri, jsonData, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials:true
+        })
+            .then((response => {
+                alert("Kasutaja info muudeti");
+            }))
+            .catch((error) => {
+                setError(getError(error.response))
+            })
+        setScreen("Info")
+        console.log(e);
     }
 
     const [loggedIn, setLogin] = useState(() => {
@@ -174,6 +224,7 @@ function App() {
             })
     }
 
+
     const loginHandler = (e) => {
         const jsonData = {
             name: document.querySelector("#userName").value,
@@ -206,8 +257,8 @@ function App() {
     ReactSession.setStoreType=("localStorage")
   return (
       <div>
-          { !loggedIn && <LoginForm loginHandler={loginHandler} regHandler={regHandler} submitHandler={submitHandler} userName={userName} passWord={passWord} error={error}/>}
-          { loggedIn && <Private deleteHandler={deleteHandler} logoutHandler={logoutHandler} data={data} error={error}/>}
+          { !loggedIn && <LoginForm loginHandler={loginHandler} regHandler={regHandler} submitHandler={submitHandler} userName={userName} passWord={passWord} error={error} onUserChange={userChangeHandler} onPassChange={passChangeHandler}/>}
+          { loggedIn && <Private screen={screen} deleteHandler={deleteHandler} logoutHandler={logoutHandler} data={data} error={error} screenHandler={switchScreen} updateHandler={updateData} newUserName={userName} newPassWord={passWord} onUserChange={userChangeHandler} onPassChange={passChangeHandler}/>}
       </div>
   );
 }
