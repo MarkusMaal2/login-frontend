@@ -9,7 +9,7 @@ let initialExpire = -1;
 let initialData;
 let initialLogin = false;
 function App() {
-    const endPoint = "http://localhost:8080"
+    const endPoint = "https://localhost:8080"
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
     const [error, setError] = useState("");
@@ -133,8 +133,7 @@ function App() {
         if (localStorage.getItem("session_data") !== null) {
             let userData = JSON.parse(localStorage.getItem("session_data"));
             console.log(userData.token);
-            return userData;
-            /*axios.get(endPoint + "/isloggedin/" + userData.token)
+            axios.get(endPoint + "/isloggedin/" + userData.token)
                 .then((response => {
                     return userData;
                 }))
@@ -143,7 +142,8 @@ function App() {
                     localStorage.removeItem("expire");
                     localStorage.removeItem("session_data");
                     window.location.reload();
-                })*/
+                })
+            return userData;
         } else {
             localStorage.removeItem("expire");
             localStorage.removeItem("session_data");
@@ -157,7 +157,6 @@ function App() {
 
     const logoutHandler = () => {
         const uri = endPoint + "/logout";
-
         axios.get(uri,  {
             headers: {
                 "Content-Type": "application/json"
@@ -174,7 +173,13 @@ function App() {
                 }
             }))
             .catch((error) => {
-                error.response?setError(getError(error.response)):console.log(error)
+                try {
+                    error.response ? setError(getError(error.response)) : console.log(error)
+                } catch {
+                    localStorage.removeItem("expire");
+                    localStorage.removeItem("session_data");
+                    setLogin(false)
+                }
             })
     }
 
