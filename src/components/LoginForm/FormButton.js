@@ -3,8 +3,8 @@ import Button from 'react-bootstrap/Button';
 
 const FormButton = (props) => {
     let style = "me-2"
-    if (props.style) {
-        style = style + " " + props.style
+    if (props.className) {
+        style = style + " " + props.className
     }
     return (
 

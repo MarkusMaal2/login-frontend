@@ -12,16 +12,11 @@ function App() {
     const [error, setError] = useState("");
     const [notes, setNotes] = useState();
     const [screen, setScreen] = useState("Info");
-    const [expire, setExpire] = useState(() => {
-        if ((localStorage.getItem("expire") !== null)) {
-            return Number(localStorage.getItem("expire"));
-        } else {
-            localStorage.removeItem("expire");
-            localStorage.removeItem("session_data");
-            return -1;
-        }
-    });
 
+    if ((localStorage.getItem("expire") === null)) {
+        localStorage.removeItem("expire");
+        localStorage.removeItem("session_data");
+    }
 
 
     const [loggedIn, setLogin] = useState(() => {
@@ -38,7 +33,7 @@ function App() {
     const [data, setData] = useState(() => {
         if (localStorage.getItem("session_data") !== null) {
             let userData = JSON.parse(localStorage.getItem("session_data"));
-            console.log(userData.token);
+            //console.log(userData.token);
             axios.get(endPoint + "/isloggedin/" + userData.token)
                 .then((response => {
                     return userData;
@@ -123,7 +118,7 @@ function App() {
             .then((response => {
                 setError("")
                 alert("Loodi kasutaja järgmiste andmetega:\nID: " + response.data.id + "\nNimi: " + response.data.name + "\nRäsi: " + response.data.hash)
-                console.log("Response: ", response.data)
+                //console.log("Response: ", response.data)
                 setUserName("")
                 setPassWord("")
             }))
@@ -154,11 +149,11 @@ function App() {
                 let expireTime = Date.now() + (30 * 60 * 1000);
                 setLogin(true)
                 setData(response.data);
-                setExpire(expireTime);
+                //setExpire(expireTime);
                 localStorage.setItem("session_data", JSON.stringify(response.data));
                 localStorage.setItem("expire", String(expireTime));
                 setError("")
-                console.log("Response: ", response.data)
+                //console.log("Response: ", response.data)
             }))
             .catch((error) => {
                 setError(getError(error.response))
@@ -177,11 +172,11 @@ function App() {
         })
             .then((response => {
                 //alert("Avati session järgmiste andmetega:\nID: " + response.data.id + "\nNimi: " + response.data.name + "\nRäsi: " + response.data.hash + "\nSessioni ID: " + response.data.token);
-                let expireTime = Date.now() + (30 * 60 * 1000);
+                //let expireTime = Date.now() + (30 * 60 * 1000);
                 setNotes(response)
-                console.log(response)
+                //console.log(response)
                 setError("")
-                console.log("Response: ", response.data)
+                //console.log("Response: ", response.data)
             }))
             .catch((error) => {
                 setError(getError(error.response))
@@ -253,6 +248,9 @@ function App() {
             case "Märkmed":
                 notesHandler(e)
                 setScreen("Notes")
+                break;
+            case "Uus märge":
+                setScreen("NewNote")
                 break;
             default:
                 setScreen("Info")

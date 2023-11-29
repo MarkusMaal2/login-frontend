@@ -23,8 +23,10 @@ const Private = (props) => {
             return <UpdateInfo backHandler={props.screenHandler} data={props.data} submitHandler={props.updateHandler} newUserName={props.newUserName} newPassWord={props.newPassWord} onUserChange={props.onUserChange} onPassChange={props.onPassChange}></UpdateInfo>;
         case "Notes":
             return <Notes backHandler={props.screenHandler} notes={props.notes}></Notes>
+        case "NewNote":
+            return (<p>NewNote</p>)
         default:
-            return (<></>)
+            return (<p>Tundmatu ekraan</p>)
     }
 }
 
