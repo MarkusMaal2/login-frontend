@@ -2,9 +2,13 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 
 const FormButton = (props) => {
+    let style = "me-2"
+    if (props.style) {
+        style = style + " " + props.style
+    }
     return (
 
-        <Button className="me-2" onClick={props.handler} variant={props.variant} type="submit">
+        <Button className={style} onClick={props.handler} variant={props.variant} type="submit">
             {props.text}
         </Button>
     )

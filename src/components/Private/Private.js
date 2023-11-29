@@ -2,6 +2,7 @@ import React from "react";
 import FormButton from "../LoginForm/FormButton";
 import Header from "./Header";
 import UpdateInfo from "./UpdateInfo";
+import Notes from "./Notes"
 
 const Private = (props) => {
     switch (props.screen) {
@@ -15,10 +16,13 @@ const Private = (props) => {
                     <p>Parooli räsi: {props.data.hash}</p>
                     <FormButton handler={props.logoutHandler} text={"Logi välja"}></FormButton>
                     <FormButton handler={props.screenHandler} text={"Muuda infot"}></FormButton>
+                    <FormButton handler={props.screenHandler} text={"Märkmed"}></FormButton>
                     <FormButton handler={props.deleteHandler} text={"Kustuta konto"}></FormButton>
                 </div></>);
         case "EditInfo":
             return <UpdateInfo backHandler={props.screenHandler} data={props.data} submitHandler={props.updateHandler} newUserName={props.newUserName} newPassWord={props.newPassWord} onUserChange={props.onUserChange} onPassChange={props.onPassChange}></UpdateInfo>;
+        case "Notes":
+            return <Notes backHandler={props.screenHandler} notes={props.notes}></Notes>
         default:
             return (<></>)
     }
