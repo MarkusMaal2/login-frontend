@@ -2,7 +2,6 @@ import React from "react";
 import FormButton from "../LoginForm/FormButton";
 
 const Note = (props) => {
-    console.log(props.note);
     if (!props.note) {
         return "";
     }

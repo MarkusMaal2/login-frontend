@@ -21,7 +21,7 @@ const Notes = (props) => {
                 <form className={"pt-3"}>
                     {props.notes.data.map((note) => {
                         return <Note
-                            note={note} deleteHandler={deleteHandler}></Note>
+                            note={note} deleteHandler={deleteHandler} key={note.id}></Note>
                     })}
                     <FormButton variant={"success"} handler={props.backHandler} text={"Uus märge"}></FormButton>
                     <FormButton handler={props.backHandler} text={"Tagasi"}></FormButton>
