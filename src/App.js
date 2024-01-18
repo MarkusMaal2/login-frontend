@@ -7,6 +7,7 @@ import axios from "axios";
 function App() {
 
     const endPoint = "https://notes-backend-web.onrender.com"
+    //const endPoint = "https://localhost:3001/"
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
     const [error, setError] = useState("");
@@ -142,8 +143,8 @@ function App() {
             headers: {
                 "Content-Type": "application/json"
             },
-            withCredentials:true
-        })
+            withCredentials: true
+        }, {withCredentials:true})
             .then((response => {
                 //alert("Avati session järgmiste andmetega:\nID: " + response.data.id + "\nNimi: " + response.data.name + "\nRäsi: " + response.data.hash + "\nSessioni ID: " + response.data.token);
                 let expireTime = Date.now() + (30 * 60 * 1000);
@@ -230,6 +231,51 @@ function App() {
         }
     }
 
+    const deleteNote = (e) => {
+        const id = e.target.parentElement.getAttribute('note_id');
+        axios.delete(endPoint + '/notes/' + data.id + "/" + id,  {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials:true
+        })
+            .then(() => {
+                return true;
+            })
+            .catch((error) => {
+                setError(getError(error.response))
+                return false;
+            });
+        return false;
+    }
+
+    const updateNote = (e) => {
+        e.preventDefault();
+        const targetElement = e.target.parentElement;
+        const text = targetElement.parentElement.children[0].value;
+        const note_id = targetElement.getAttribute("note_id");
+
+        const uri = endPoint + "/notes/" + data.id + "/" + note_id;
+
+        const jsonData = {
+            content: text
+        }
+
+        axios.put(uri, jsonData, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials:true
+        })
+            .then((response => {
+                notesHandler(e);
+                setScreen("Notes")
+            }))
+            .catch((error) => {
+                setError(getError(error.response))
+            })
+    }
+
     const userChangeHandler = (e) => {
         setUserName(e.target.value)
     }
@@ -252,6 +298,17 @@ function App() {
             case "Uus märge":
                 setScreen("NewNote")
                 break;
+            case "Kustuta":
+                if (deleteNote(e)) {
+                    notesHandler(e);
+                    setScreen("Notes");
+                } else {
+                    setError("Märkme kustutamine nurjus");
+                }
+                break;
+            case "Kinnita":
+                updateNote(e)
+                break;
             default:
                 setScreen("Info")
                 break;
@@ -261,28 +318,48 @@ function App() {
     const updateData = (e) => {
         e.preventDefault();
 
+        if (e.target.textContent !== "Lisa märge") {
+            const jsonData = {
+                name: document.querySelector("#userName").value,
+                password: document.querySelector("#passWord").value,
+            }
 
-        const jsonData = {
-            name: document.querySelector("#userName").value,
-            password: document.querySelector("#passWord").value,
-        }
+            const uri = endPoint + "/users/" + data.id;
 
-        const uri = endPoint + "/users/" + data.id;
-
-        axios.put(uri, jsonData, {
-            headers: {
-                "Content-Type": "application/json"
-            },
-            withCredentials:true
-        })
-            .then((response => {
-                alert("Kasutaja info muudeti");
-            }))
-            .catch((error) => {
-                setError(getError(error.response))
+            axios.put(uri, jsonData, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials:true
             })
-        setScreen("Info")
-        console.log(e);
+                .then((response => {
+                    alert("Kasutaja info muudeti");
+                }))
+                .catch((error) => {
+                    setError(getError(error.response))
+                })
+            setScreen("Info")
+        } else {
+            const jsonData = {
+                content: document.querySelector("#noteContent").value,
+            }
+
+            const uri = endPoint + "/notes/" + data.id;
+
+            axios.post(uri, jsonData, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                withCredentials:true
+            })
+                .then((response => {
+                    notesHandler(e);
+                    setScreen("Notes")
+                }))
+                .catch((error) => {
+                    setError(getError(error.response))
+                })
+        }
     }
 
     ReactSession.setStoreType=("localStorage")

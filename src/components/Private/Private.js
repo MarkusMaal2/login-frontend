@@ -3,6 +3,7 @@ import FormButton from "../LoginForm/FormButton";
 import Header from "./Header";
 import UpdateInfo from "./UpdateInfo";
 import Notes from "./Notes"
+import NewNote from "./NewNote";
 
 const Private = (props) => {
     switch (props.screen) {
@@ -24,7 +25,7 @@ const Private = (props) => {
         case "Notes":
             return <Notes backHandler={props.screenHandler} notes={props.notes}></Notes>
         case "NewNote":
-            return (<p>NewNote</p>)
+            return <NewNote backHandler={props.screenHandler} confirmHandler={props.updateHandler} />
         default:
             return (<p>Tundmatu ekraan</p>)
     }

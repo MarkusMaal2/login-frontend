@@ -3,6 +3,7 @@ import Header from "./Header";
 import FormButton from "../LoginForm/FormButton";
 import Note from "./Note";
 import EditNote from "./EditNote";
+import axios from "axios";
 
 
 const Notes = (props) => {
@@ -17,6 +18,7 @@ const Notes = (props) => {
         props.notes.data[arrIdx] = modNote
         setNoteScreen("default");
         setArrIdx(0);
+        props.backHandler(e);
     }
 
     const deleteHandler = (e) => {
@@ -42,7 +44,7 @@ const Notes = (props) => {
                         props.notes.data.splice(j, 1);
                     }
                 }
-                console.log("Delete " + id);
+                props.backHandler(e);
                 break;
             default:
                 console.log("<unknown> " + id);
