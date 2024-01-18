@@ -6,7 +6,7 @@ import Private from "./components/Private/Private"
 import axios from "axios";
 function App() {
 
-    const endPoint = "https://localhost:8080"
+    const endPoint = "https://notes-backend-web.onrender.com"
     const [userName, setUserName] = useState("");
     const [passWord, setPassWord] = useState("");
     const [error, setError] = useState("");
