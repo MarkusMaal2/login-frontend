@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Note System Front-end
+This is a front-end for my notes system API written using React. It allows you to register, log in, create notes, change notes, delete notes, delete user account.
+NOTE: third-party cookies MUST be enabled, otherwise the session doesn't get saved properly
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live version: [https://login-frontend-jet.vercel.app](https://login-frontend-jet.vercel.app)
 
 ## Available Scripts
 
