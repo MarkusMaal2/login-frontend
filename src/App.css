@@ -4,8 +4,12 @@ Form {
 
 .btn-primary,
 .text-bg-primary,
-.border-primary-subtle {
+.note-header {
   background-color: #8464a2 !important;
+  border-color: #8464a2 !important;
+}
+
+.border-primary {
   border-color: #8464a2 !important;
 }
 
