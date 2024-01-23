@@ -1,3 +1,18 @@
 Form {
   padding: 5em;
 }
+
+.btn-primary,
+.text-bg-primary,
+.border-primary-subtle {
+  background-color: #8464a2 !important;
+  border-color: #8464a2 !important;
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+  background-color: #947fa6 !important;
+  border-color: #947fa6 !important;
+}
