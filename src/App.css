@@ -2,11 +2,12 @@ Form {
   padding: 5em;
 }
 
+
 .btn-primary,
 .text-bg-primary,
 .note-header {
-  background-color: #8464a2 !important;
-  border-color: #8464a2 !important;
+  background-color: #7a529f !important;
+  border-color: #7a529f !important;
 }
 
 .border-primary {
@@ -17,6 +18,50 @@ Form {
 .btn-primary:active,
 .btn-primary:visited,
 .btn-primary:focus {
-  background-color: #947fa6 !important;
-  border-color: #947fa6 !important;
+  background-color: #8f68b7 !important;
+  border-color: #8f68b7 !important;
+}
+
+.btn-danger {
+  background-color: #b73c6f !important;
+  border-color: #b73c6f !important;
+}
+
+.btn-danger:hover,
+.btn-danger:active,
+.btn-danger:visited,
+.btn-danger:focus {
+  background-color: #b6597d !important;
+  border-color: #b6597d !important;
+}
+.btn-success {
+  background-color: #5f3cb7 !important;
+  border-color: #5f3cb7 !important;
+}
+
+.btn-success:hover,
+.btn-success:active,
+.btn-success:visited,
+.btn-success:focus {
+  background-color: #7b62bb !important;
+  border-color: #7b62bb !important;
+}
+
+.btn-secondary {
+  background-color: #5a5677 !important;
+  border-color: #5a5677 !important;
+}
+
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:visited,
+.btn-secondary:focus {
+  background-color: #767293 !important;
+  border-color: #767293 !important;
+}
+
+.form-control {
+  background-color: #372e3a !important;
+  border-color: #767293 !important;
+  color: #cdc8ff !important;
 }
