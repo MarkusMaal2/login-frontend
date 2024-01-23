@@ -5,7 +5,7 @@ import Header from "./Header";
 const NewNote = (props) => {
     return (
         <>
-            <Header label={"Märkme lisamine"}></Header>
+            <Header label={"Märkme lisamine"} onReturnHome={props.returnHome}></Header>
             <form className={"pt-3"}>
                 <div className={"rounded-3 mb-3 border border-secondary mx-0"}>
                     <textarea className={"form-control p-3"} id={"noteContent"}></textarea>

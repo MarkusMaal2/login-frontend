@@ -9,7 +9,7 @@ const Private = (props) => {
     switch (props.screen) {
         case "Info":
             return (<>
-                <Header label={`Tere tulemast, ${props.data.name}!`}></Header>
+                <Header label={`Tere tulemast, ${props.data.name}!`} onReturnHome={props.returnHome}></Header>
                 <div className="container mt-5">
                     { props.error ? <div style={{color: "red"}}>{props.error}</div> : "" }
                     <p>Andmebaasi ID: {props.data.id}</p>
@@ -21,11 +21,11 @@ const Private = (props) => {
                     <FormButton handler={props.deleteHandler} text={"Kustuta konto"}></FormButton>
                 </div></>);
         case "EditInfo":
-            return <UpdateInfo backHandler={props.screenHandler} data={props.data} submitHandler={props.updateHandler} newUserName={props.newUserName} newPassWord={props.newPassWord} onUserChange={props.onUserChange} onPassChange={props.onPassChange}></UpdateInfo>;
+            return <UpdateInfo backHandler={props.screenHandler} data={props.data} submitHandler={props.updateHandler} newUserName={props.newUserName} newPassWord={props.newPassWord} onUserChange={props.onUserChange} onPassChange={props.onPassChange} returnHome={props.returnHome}></UpdateInfo>;
         case "Notes":
-            return <Notes backHandler={props.screenHandler} notes={props.notes}></Notes>
+            return <Notes backHandler={props.screenHandler} notes={props.notes} returnHome={props.returnHome}></Notes>
         case "NewNote":
-            return <NewNote backHandler={props.screenHandler} confirmHandler={props.updateHandler} />
+            return <NewNote backHandler={props.screenHandler} confirmHandler={props.updateHandler} returnHome={props.returnHome} />
         default:
             return (<p>Tundmatu ekraan</p>)
     }

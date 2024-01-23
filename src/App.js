@@ -56,6 +56,10 @@ function App() {
         e.preventDefault();
     }
 
+    const goHome = () => {
+        setScreen("Info");
+    }
+
     const logoutHandler = () => {
         const uri = endPoint + "/logout";
         axios.get(uri,  {
@@ -365,8 +369,8 @@ function App() {
     ReactSession.setStoreType=("localStorage")
   return (
       <div>
-          { !loggedIn && <LoginForm loginHandler={loginHandler} regHandler={regHandler} submitHandler={submitHandler} userName={userName} passWord={passWord} error={error} onUserChange={userChangeHandler} onPassChange={passChangeHandler}/>}
-          { loggedIn && <Private screen={screen} deleteHandler={deleteHandler} logoutHandler={logoutHandler} data={data} error={error} screenHandler={switchScreen} updateHandler={updateData} newUserName={userName} newPassWord={passWord} onUserChange={userChangeHandler} onPassChange={passChangeHandler} notes={notes}/>}
+          { !loggedIn && <LoginForm loginHandler={loginHandler} regHandler={regHandler} submitHandler={submitHandler} userName={userName} passWord={passWord} error={error} onUserChange={userChangeHandler} onPassChange={passChangeHandler} returnHome={goHome}/>}
+          { loggedIn && <Private screen={screen} deleteHandler={deleteHandler} logoutHandler={logoutHandler} data={data} error={error} screenHandler={switchScreen} updateHandler={updateData} newUserName={userName} newPassWord={passWord} onUserChange={userChangeHandler} onPassChange={passChangeHandler} notes={notes} returnHome={goHome}/>}
       </div>
   );
 }

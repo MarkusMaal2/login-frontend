@@ -14,7 +14,7 @@ const EditNote = (props) => {
     //console.log(props.note.id);
     return (
         <>
-            <Header label={"Märkme muutmine (ID: " + props.note.id + ")"}></Header>
+            <Header label={"Märkme muutmine (ID: " + props.note.id + ")"} onReturnHome={props.returnHome}></Header>
             <form className={"pt-3"}>
                 <div className={"rounded-3 mb-3 border border-secondary mx-0"}>
                     <textarea className={"form-control p-3"} value={content} onChange={setValue}></textarea>

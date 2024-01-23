@@ -3,7 +3,6 @@ import Header from "./Header";
 import FormButton from "../LoginForm/FormButton";
 import Note from "./Note";
 import EditNote from "./EditNote";
-import axios from "axios";
 
 
 const Notes = (props) => {
@@ -54,7 +53,7 @@ const Notes = (props) => {
     if (noteScreen === "default") {
         return (
             <>
-                <Header label={`Märkmed`}></Header>
+                <Header label={`Märkmed`} onReturnHome={props.returnHome}></Header>
                 <div>
                     <form className={"pt-3"}>
                         {props.notes.data.map((note) => {
@@ -70,7 +69,7 @@ const Notes = (props) => {
     } else {
         return (
             <>
-                <EditNote note={modNote} confirmHandler={confirmMod}></EditNote>
+                <EditNote note={modNote} confirmHandler={confirmMod} returnHome={props.returnHome}></EditNote>
             </>
         )
     }

@@ -5,7 +5,7 @@ import TextField from "../LoginForm/TextField";
 
 const UpdateInfo = (props) => {
     return (<>
-        <Header label={`Andmete muutmine`}></Header>
+        <Header label={`Andmete muutmine`} onReturnHome={props.returnHome}></Header>
         <div className="container mt-5">
         <form>
             <TextField id="userName" type="text" label="Kasutajanimi"  value={props.newUserName} onChange={props.onUserChange}></TextField>
