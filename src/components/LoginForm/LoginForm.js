@@ -3,6 +3,7 @@ import Form from 'react-bootstrap/Form';
 import TextField from "./TextField";
 import FormButton from "./FormButton";
 import Header from "../Private/Header";
+import Note from "../Private/Note";
 
 const LoginForm = (props) => {
     return (

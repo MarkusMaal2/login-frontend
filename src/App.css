@@ -3,9 +3,15 @@ Form {
 }
 
 
-.btn-primary,
-.text-bg-primary,
+.background-dark {
+  background-color: #4c4964 !important;
+}
+
 .note-header {
+  background-color: #5a5677 !important;
+}
+.btn-primary,
+.text-bg-primary {
   background-color: #7a529f !important;
   border-color: #7a529f !important;
 }
